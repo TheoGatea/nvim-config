@@ -1,4 +1,4 @@
-local statusline = require('statusline')
+require('statusline')
 
 -- Neovim will generate gb's of logs for some reason when logging is set to `WARN`
 vim.lsp.log.set_level(vim.log.levels.ERROR)
@@ -6,12 +6,6 @@ vim.lsp.log.set_level(vim.log.levels.ERROR)
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
-    -- statusline integration (was previously the on_attach passed to lspconfig)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client then
-      statusline.on_attach(client)
-    end
-
     local function nnoremap(key, com)
         vim.keymap.set('n', key, com, { buffer = ev.buf })
     end
@@ -101,7 +95,6 @@ cmp.setup {
 }
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-capabilities = vim.tbl_extend('keep', capabilities or {}, statusline.capabilities)
 
 -- Defaults applied to ALL servers (merged into every config).
 -- Replaces the on_attach/capabilities args previously passed to each setup{}.
@@ -128,8 +121,6 @@ vim.lsp.config('rust_analyzer', {
       procMacro = {
         enable = false
       },
-      -- run rustfmt via the nightly toolchain so unstable options in the
-      -- workspace-root rustfmt.toml are honored (like `cargo +nightly fmt`)
       rustfmt = {
         extraArgs = { "+nightly" },
       },
@@ -149,18 +140,10 @@ local lspservers = {
 }
 
 require("mason").setup({})
--- mason-lspconfig v2 auto-enables every Mason-installed server via
--- vim.lsp.enable() (automatic_enable = true by default). Do NOT also call
--- the old require('lspconfig').<server>.setup{} for them — that is what
--- caused two clients to attach and every symbol to appear twice.
 require("mason-lspconfig").setup({
   ensure_installed = lspservers,
 })
 
--- Servers not managed by Mason: install hints + enable.
--- vim.lsp.enable() is idempotent, so even if Mason ends up installing
--- pyright/clangd (and mason-lspconfig auto-enables them), no duplicate
--- client is created.
 local binaries = {
     {"pyright", "`pip install pyright`"},
     {"clangd", "install llvm or `npm i --location=global @clangd/install`"},

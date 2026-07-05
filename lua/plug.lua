@@ -31,9 +31,7 @@ lazy.setup({
     {'catppuccin/nvim'},
     {'nvim-treesitter/nvim-treesitter'},
     {'neovim/nvim-lspconfig'},
-    {'nvim-lua/lsp_extensions.nvim'},
     {'onsails/lspkind-nvim'},
-    {'nvim-lua/lsp-status.nvim'},
     {'windwp/nvim-autopairs'},
     {"hrsh7th/nvim-cmp",
         dependencies = {
