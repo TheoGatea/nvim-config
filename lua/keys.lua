@@ -6,7 +6,6 @@ local function nnoremap(key, com) vim.keymap.set('n', key, com, ops) end
 local function tnoremap(key, com) vim.keymap.set('t', key, com, ops) end
 
 -- utility binds
-nnoremap("fdklasjflksj", "<Esc>")
 inoremap("jj", "<Esc>")
 tnoremap("<C-t>", [[<C-\><C-n>]])
 
