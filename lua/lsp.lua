@@ -128,6 +128,11 @@ vim.lsp.config('rust_analyzer', {
       procMacro = {
         enable = false
       },
+      -- run rustfmt via the nightly toolchain so unstable options in the
+      -- workspace-root rustfmt.toml are honored (like `cargo +nightly fmt`)
+      rustfmt = {
+        extraArgs = { "+nightly" },
+      },
       diagnostics = {
         disabled = {"inactive-code", "unresolved-proc-macro", "mismatched-arg-count"},
         enableExperimental = true
