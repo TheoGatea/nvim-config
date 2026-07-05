@@ -118,9 +118,6 @@ vim.lsp.config('rust_analyzer', {
       check = {
         allTargets = false,
       },
-      procMacro = {
-        enable = false
-      },
       rustfmt = {
         extraArgs = { "+nightly" },
       },
